@@ -1,5 +1,10 @@
 <ion-view view-title="Trails">
   <ion-content class="padding">
-    trails page
+     <map on-create="mapCreated(map)"></map>
   </ion-content>
+
+  <ion-footer-bar class="bar-stable">
+     <a ng-click="centerOnMe()" class="button button-icon icon ion-navigate"></a>
+  </ion-footer-bar>
+ 
 </ion-view>
