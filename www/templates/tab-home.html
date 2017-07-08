@@ -3,20 +3,24 @@ Create tabs with an icon and label, using the tabs-positive style.
 Each tab's child <ion-nav-view> directive will have its own
 navigation history that also transitions its views in and out.
 -->
-<ion-view id="background"></ion-view>
-<ion-view hide-back-button="true">
-    <ion-tabs class="tabs-stable tabs-icon-top">
-        <ion-tab title="Track" icon="ion-map" ui-sref="/track">
-            <ion-nav-view name="track-tab"></ion-nav-view>
+
+   <ion-tabs class="tabs-icon-top tabs-color-active-positive">
+
+
+        <ion-tab title="Track" icon-off="ion-compass" icon-on="ion-compass" href="#/tab/track">
+            <ion-nav-view name="tab-track"></ion-nav-view>
+          </ion-tab>
+
+
+        <ion-tab title="Login" icon-off="ion-person" icon-on="ion-person" href="#/tab/login">
+    <ion-nav-view name="tab-login"></ion-nav-view>
+  </ion-tab>
+
+        <ion-tab title="Nearby" icon-off="ion-location" icon-on="ion-location" href="#/tab/trails">
+            <ion-nav-view name="tab-trails"></ion-nav-view>
         </ion-tab>
-        <ion-tab title="Login" icon="ion-chatboxes" ui-sref="/login">
-            <ion-nav-view name="login-tab"></ion-nav-view>
-        </ion-tab>
-        <ion-tab title="Nearby" icon="ion-ios-people" ui-sref="tabs.buddies">
-            <ion-nav-view name="none"></ion-nav-view>
-        </ion-tab>
-        <ion-tab title="Trails" icon="ion-checkmark" ui-sref="trails">
-            <ion-nav-view name="trails-tab"></ion-nav-view>
+
+        <ion-tab title="Trails" icon-off="ion-map" icon-on="ion-map" href="#/tab/trails">
+            <ion-nav-view name="tab-trails"></ion-nav-view>
         </ion-tab>
     </ion-tabs>
-</ion-view>

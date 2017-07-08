@@ -26,42 +26,43 @@ angular.module('starter', ['ionic','starter.controllers','starter.services'])
 .config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
-    .state('tab.home', {
-      url: "/home",
+
+  // setup an abstract state for the tabs directive
+    .state('tab', {
+      url: '/tab',
       abstract: true,
-      templateUrl: "templates/tab-home.html"
+      templateUrl: 'templates/tab-home.html'
     })
+
     .state('tab.login', {
-      url: "/login",
+      url: '/login',
       views: {
-        'login-tab': {
-          templateUrl: "templates/tab-login.html",
+        'tab-login': {
+          templateUrl: 'templates/tab-login.html',
           controller: 'LoginCtrl'
         }
       }
     })
     .state('tab.track', {
-      url: "/track",
+      url: '/track',
       views: {
-        'track-tab': {
-          templateUrl: "templates/tab-track.html"
+        'tab-track': {
+          templateUrl: 'templates/tab-track.html',
+          controller: 'MapsCtrl'
         }
       }
     })
     .state('tab.trails', {
-      url: "/trails",
+      url: '/trails',
       views: {
-        'trails-tab': {
-          templateUrl: "templates/tab-trails.html"
+        'tab-trails': {
+          templateUrl: 'templates/tab-trails.html',
+           controller: 'MapsCtrl'
         }
       }
     })
 
 
-   $urlRouterProvider.otherwise("/tab");
+   $urlRouterProvider.otherwise('/tab/track');
 
 })
-
-.controller('TabsCtrl', function($scope) {
-  console.log('HomeTabCtrl');
-});

@@ -1,7 +1,5 @@
 angular.module('starter.controllers', [])
 
-.controller('TabsCtrl', function($scope) {})
-
 .controller('LoginCtrl', function($scope) {})
 
 .controller('MapCtrl', function($scope) {})
