@@ -1,90 +1,92 @@
 angular.module('starter.controllers', [])
 
-  .controller('LoginCtrl', function($scope) {})
+  .controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
+    $scope.data = {};
 
-  .controller('TrackCtrl', function($scope) {})
+    $scope.login = function() {
+      LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+        $state.go('tab.dash');
+      }).error(function(data) {
+        var alertPopup = $ionicPopup.alert({
+          title: 'Login failed!',
+          template: 'Please check your credentials!'
+        });
+      });
+    }
+  })
 
 
   .controller('TrailsCtrl', function($scope, $ionicLoading) {
-    $scope.mapCreated = function(map) {
-      $scope.map = map;
-    };
+    // you can specify the default lat long
+    var map,
+      currentPositionMarker,
+      mapCenter = new google.maps.LatLng(14.668626, 121.24295),
+      map;
 
-    $scope.centerOnMe = function() {
-      console.log("Centering");
-      if (!$scope.map) {
-        return;
-      }
-
-      $scope.loading = $ionicLoading.show({
-        content: 'Getting current location...',
-        showBackdrop: false
-      });
-
-      navigator.geolocation.getCurrentPosition(function(pos) {
-        console.log('Got pos', pos);
-        $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-        $scope.loading.hide();
-      }, function(error) {
-        alert('Unable to get location: ' + error.message);
-      });
-    };
-  })
-
-  .controller('MapsCtrl', function($scope, $ionicLoading, $compile) {
-    function initialize() {
-      var myLatlng = new google.maps.LatLng(43.07493, -89.381388);
-
-      var mapOptions = {
-        center: myLatlng,
-        zoom: 16,
+    // change the zoom if you want
+    function initializeMap() {
+      map = new google.maps.Map(document.getElementById('map_canvas'), {
+        zoom: 18,
+        center: mapCenter,
         mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      var map = new google.maps.Map(document.getElementById("map"),
-        mapOptions);
-
-      //Marker + infowindow + angularjs compiled ng-click
-      var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
-      var compiled = $compile(contentString)($scope);
-
-      var infowindow = new google.maps.InfoWindow({
-        content: compiled[0]
       });
-
-      var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: map,
-        title: 'Uluru (Ayers Rock)'
-      });
-
-      google.maps.event.addListener(marker, 'click', function() {
-        infowindow.open(map, marker);
-      });
-
-      $scope.map = map;
     }
-    google.maps.event.addDomListener(window, 'load', initialize);
 
-    $scope.centerOnMe = function() {
-      if (!$scope.map) {
-        return;
+    function locError(error) {
+      // tell the user if the current position could not be located
+      alert("The current position could not be found!");
+    }
+
+    // current position of the user
+    function setCurrentPosition(pos) {
+      currentPositionMarker = new google.maps.Marker({
+        map: map,
+        position: new google.maps.LatLng(
+          pos.coords.latitude,
+          pos.coords.longitude
+        ),
+        title: "Current Position"
+      });
+      map.panTo(new google.maps.LatLng(
+        pos.coords.latitude,
+        pos.coords.longitude
+      ));
+    }
+
+    function displayAndWatch(position) {
+
+      // set current position
+      setCurrentPosition(position);
+
+      // watch position
+      watchCurrentPosition();
+    }
+
+    function watchCurrentPosition() {
+      var positionTimer = navigator.geolocation.watchPosition(
+        function(position) {
+          setMarkerPosition(
+            currentPositionMarker,
+            position
+          );
+        });
+    }
+
+    function setMarkerPosition(marker, position) {
+      marker.setPosition(
+        new google.maps.LatLng(
+          position.coords.latitude,
+          position.coords.longitude)
+      );
+    }
+
+    function initLocationProcedure() {
+      initializeMap();
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(displayAndWatch, locError);
+      } else {
+        // tell the user if a browser doesn't support this amazing API
+        alert("Your browser does not support the Geolocation API!");
       }
-
-      $scope.loading = $ionicLoading.show({
-        content: 'Getting current location...',
-        showBackdrop: false
-      });
-
-      navigator.geolocation.getCurrentPosition(function(pos) {
-        $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-        $scope.loading.hide();
-      }, function(error) {
-        alert('Unable to get location: ' + error.message);
-      });
-    };
-
-    $scope.clickTest = function() {
-      alert('Example of infowindow with ng-click');
-    };
-
-  });
+    }
+  })
