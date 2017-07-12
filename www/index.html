@@ -29,6 +29,8 @@
     </script>-->
 
   <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+
+
   <link href="css/style.css" rel="stylesheet">
 
   <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
@@ -37,6 +39,7 @@
 
   <!-- ionic/angularjs js -->
   <script src="lib/ionic/js/ionic.bundle.js"></script>
+   <script src="lib/ionic.cloud.min.js"></script>
 
   <!-- cordova script (this will be a 404 during development) -->
   <script src="cordova.js"></script>
@@ -47,20 +50,20 @@
   <script src="js/services.js"></script>
   <!--<script src="js/directives.js"></script>  -->
 
-
-  <!-- <link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">
+<!-- for nav bar  -->
+  <link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">
     <script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>
--->
+
 </head>
 
 <body ng-app="starter">
   <!--
       The nav bar that will be updated as we navigate between views.
     -->
-  <ion-nav-bar class="bar-stable">
-    <ion-nav-back-button>
-    </ion-nav-back-button>
-  </ion-nav-bar>
+    <ion-nav-bar class="bar-positive">
+         <ion-nav-back-button class="button-icon ion-arrow-left-c">
+         </ion-nav-back-button>
+       </ion-nav-bar>
 
   <ion-nav-view></ion-nav-view>
 </body>
