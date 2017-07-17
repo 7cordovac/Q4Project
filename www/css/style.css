@@ -37,3 +37,11 @@ map {
     list-style-type: disc;
     padding-left: 20px;
 }
+
+#tab-nav tabs {
+  height: 10px;
+ }
+
+#speed {
+   font-style: bold;
+}

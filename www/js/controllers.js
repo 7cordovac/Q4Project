@@ -1,49 +1,96 @@
 angular.module('starter.controllers', [])
 
-.run(function ($ionicPlatform,$state,$ionicHistory,$ionicPopup) {
-   $ionicPlatform.ready(function () {
-     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-     // for form inputs)
-     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+  .run(function($ionicPlatform, $state, $ionicHistory, $ionicPopup) {
+    $ionicPlatform.ready(function() {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
 
-     }
-     if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-     }
-
-     $ionicPlatform.registerBackButtonAction(function (event) {
-      event.preventDefault();
-      if ($state.current.name == "tab.home") {
-         var confirmPopup = $ionicPopup.confirm({
-           title: 'Exit',
-           template: 'Confirm Exit'
-         });
-
-         confirmPopup.then(function (res) {
-           if (res) {
-             navigator.app.exitApp();
-           }
-
-         });
-      } else {
-         $ionicHistory.nextViewOptions({ disableBack: true });
-         $state.go('tab.home');
       }
-     }, 800);//registerBackButton
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
 
-   });
- })
+      $ionicPlatform.registerBackButtonAction(function(event) {
+        event.preventDefault();
+        if ($state.current.name == "tab.home") {
+          var confirmPopup = $ionicPopup.confirm({
+            title: 'Exit',
+            template: 'Confirm Exit'
+          });
 
+          confirmPopup.then(function(res) {
+            if (res) {
+              navigator.app.exitApp();
+            }
 
-  .controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
+          });
+        } else {
+          $ionicHistory.nextViewOptions({
+            disableBack: true
+          });
+          $state.go('tab.home');
+        }
+      }, 800); //registerBackButton
+
+    });
+  })
+
+  .controller('AppCtrl', function($scope, $ionicModal, $timeout, $ionicSideMenuDelegate) {
+
+    // With the new view caching in Ionic, Controllers are only called
+    // when they are recreated or on app start, instead of every page change.
+    // To listen for when this page is active (for example, to refresh data),
+    // listen for the $ionicView.enter event:
+    //$scope.$on('$ionicView.enter', function(e) {
+    //});
+    $scope.toggleLeftSideMenu = function() {
+      $ionicSideMenuDelegate.toggleLeft();
+    };
+
+    // Form data for the login modal
+    $scope.loginData = {};
+
+    // Create the login modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/login.html', {
+      scope: $scope
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+
+    // Triggered in the login modal to close it
+    $scope.closeLogin = function() {
+      $scope.modal.hide();
+    };
+
+    // Open the login modal
+    $scope.login = function() {
+      $scope.modal.show();
+    };
+
+    // Perform the login action when the user submits the login form
+    $scope.doLogin = function() {
+      console.log('Doing login', $scope.loginData);
+
+      // Simulate a login delay. Remove this and replace with your login
+      // code if using a login system
+      $timeout(function() {
+        $scope.closeLogin();
+      }, 3000);
+    };
+  })
+
+  //////////////////////////////////
+
+  .controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $window) {
     $scope.data = {};
 
     $scope.login = function() {
       LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
-        $state.go('tab.dash');
+        $state.go('tab.track');
       }).error(function(data) {
         var alertPopup = $ionicPopup.alert({
           title: 'Login failed!',
@@ -54,14 +101,27 @@ angular.module('starter.controllers', [])
   })
 
 
- .controller('TrailsCtrl', function($scope, $ionicLoading) {
+  ///////////////////////////////////////////////
+
+
+  /*.controller('MappingCtrl', function($scope, $ionicLoading) {
     // you can specify the default lat long
+
+
     var map,
       currentPositionMarker,
       mapCenter = new google.maps.LatLng(14.668626, 121.24295),
       map;
 
-    // change the zoom if you want
+    //COORDINATES
+    //var map;
+    //var mark;
+    //var lineCoords = [];
+
+
+
+
+    //creates map
     function initializeMap() {
       map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 18,
@@ -71,11 +131,12 @@ angular.module('starter.controllers', [])
     }
 
     function locError(error) {
+
       // tell the user if the current position could not be located
       alert("The current position could not be found!");
     }
 
-    // current position of the user
+    // current position of the user, used in displayAndWatchfunction
     function setCurrentPosition(pos) {
       currentPositionMarker = new google.maps.Marker({
         map: map,
@@ -91,15 +152,21 @@ angular.module('starter.controllers', [])
       ));
     }
 
-    function displayAndWatch(position) {
 
+
+
+
+
+
+    function displayAndWatch(position) {
       // set current position
       setCurrentPosition(position);
-
       // watch position
       watchCurrentPosition();
     }
 
+
+    // watchCurrentPosition is used in displayAndWatch function
     function watchCurrentPosition() {
       var positionTimer = navigator.geolocation.watchPosition(
         function(position) {
@@ -110,6 +177,7 @@ angular.module('starter.controllers', [])
         });
     }
 
+    //displays marker
     function setMarkerPosition(marker, position) {
       marker.setPosition(
         new google.maps.LatLng(
@@ -119,6 +187,7 @@ angular.module('starter.controllers', [])
     }
 
     function initLocationProcedure() {
+
       initializeMap();
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(displayAndWatch, locError);
@@ -127,69 +196,83 @@ angular.module('starter.controllers', [])
         alert("Your browser does not support the Geolocation API!");
       }
     }
+    // initialize with a little help of jQuery
+    $(document).ready(function() {
+      initLocationProcedure();
+    });
+  })
+*/
+
+  /////////////////////////////////////////////
+
+ /* .controller('TrackCtrl', function($scope, $ionicLoading) {
+
+    window.navigator = window.navigator || {};
+    window.navigator.geolocation = window.navigator.geolocation ||
+      undefined;
+    if (navigator.geolocation === undefined) {
+      document.getElementById('g-unsupported').classList.remove('hidden');
+      ['button-get-position', 'button-watch-position', 'button-stop-watching'].forEach(function(elementId) {
+        document.getElementById(elementId).setAttribute('disabled', 'disabled');
+      });
+    } else {
+
+
+      var log = document.getElementById('log');
+      var watchId;
+      var positionOptions = {
+        enableHighAccuracy: true,
+        timeout: 10 * 1000, // 10 seconds
+        maximumAge: 30 * 1000 // 30 seconds
+      };
+
+      function success(position) {
+        document.getElementById('latitude').innerHTML = position.coords.latitude;
+        document.getElementById('longitude').innerHTML = position.coords.longitude;
+        document.getElementById('position-accuracy').innerHTML = position.coords.accuracy;
+
+        document.getElementById('altitude').innerHTML = position.coords.altitude ? position.coords.altitude :
+          'unavailable';
+        document.getElementById('altitude-accuracy').innerHTML = position.coords.altitudeAccuracy ?
+          position.coords.altitudeAccuracy :
+          'unavailable';
+        document.getElementById('heading').innerHTML = position.coords.heading ? position.coords.heading :
+          'unavailable';
+        document.getElementById('speed').innerHTML = position.coords.speed ? position.coords.speed :
+          'unavailable';
+
+        document.getElementById('timestamp').innerHTML = (new Date(position.timestamp)).toString();
+
+        log.innerHTML = 'Position succesfully retrieved<br />' + log.innerHTML;
+      }
+
+
+      function error(positionError) {
+        log.innerHTML = 'Error: ' + positionError.message + '<br />' + log.innerHTML;
+      }
+
+      document.getElementById('button-get-position').addEventListener('click', function() {
+        navigator.geolocation.getCurrentPosition(success, error, positionOptions);
+      });
+
+      document.getElementById('button-watch-position').addEventListener('click', function() {
+        watchId = navigator.geolocation.watchPosition(success, error, positionOptions);
+      });
+
+      document.getElementById('button-stop-watching').addEventListener('click', function() {
+        if (watchId !== null) {
+          navigator.geolocation.clearWatch(watchId);
+          log.innerHTML = 'Stopped watching position<br />' + log.innerHTML;
+        }
+      });
+
+      document.getElementById('clear-log').addEventListener('click', function() {
+        log.innerHTML = '';
+      });
+    }
   })
 
 
- .controller('TrackCtrl', function($scope, $ionicLoading) {
-  function displayLocation(position) {
-   var latitude = position.coords.latitude;
-   var longitude = position.coords.longitude;
+*/
 
-   var pTime = document.getElementById("time");
-   t2 = Date.now();
-   pTime.innerHTML += "<br>Computed in " + (t2-t1) + " milliseconds";
-
-   var pLocation = document.getElementById("location");
-   pLocation.innerHTML += latitude + ", " + longitude + "<br>";
-
-   var pInfo = document.getElementById("info");
-   var date = new Date(position.timestamp);
-   pInfo.innerHTML = "Location timestamp: " + date + "<br>";
-   pInfo.innerHTML += "Accuracy of location: " +
-                  position.coords.accuracy +
-                  " meters<br>";
-   if (position.coords.altitude) {
-      pInfo.innerHTML += "Altitude: " + position.coords.altitude;
-   }
-
-   if (position.coords.altitudeAccuracy) {
-      pInfo.innerHTML += " with accuracy " +
-         position.coords.altitudeAccuracy + "???";
-   }
-   pInfo.innerHTML += "<br>";
-  //direction you are heading
-   if (position.coords.heading) {
-      pInfo.innerHTML += "Heading: " + position.coords.heading + "<br>";
-   }
-
-   if (position.coords.speed) {
-      pInfo.innerHTML += "Speed: " + position.coords.speed + "<br>";
-   }
-  }
-
-  function displayError(error) {
-   var errors = ["Unknown error", "Permission denied by user", "Position not available", "Timeout error"];
-   var message = errors[error.code];
-   console.warn("Error in getting your location: " + message, error.message);
-   var pError = document.getElementById("error");
-   pError.innerHTML = "Error in getting your location: " + message + ", " + error.message;
-  }
-
-  var t1 = 0, t2 = 0;
-
-  window.onload = function() {
-   if (navigator.geolocation) {
-      var pTime = document.getElementById("time");
-      pTime.innerHTML = "Timeout: 5000, maximumAge: 0";
-
-      t1 = Date.now();
-
-      navigator.geolocation.getCurrentPosition(displayLocation,
-         displayError,
-         { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
-      );
-   } else {
-      alert("Sorry, this browser doesn't support geolocation!");
-   }
-  }
-  })
+//////////////////////////////////////////////////////////

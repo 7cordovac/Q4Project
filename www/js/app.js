@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ionic.cloud'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services',])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -23,15 +23,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
     });
   })
 
-  .config(function($ionicCloudProvider) {
-  $ionicCloudProvider.init({
-    "core": {
-      "app_id": "0c936b51S"
-    }
-  });
-})
+//  .config(function($ionicCloudProvider) {
+//    $ionicCloudProvider.init({
+//      "core": {
+//        "app_id": "7a986ea1"
+//      }
+//   });
+//})
 
-  .config(function($stateProvider, $urlRouterProvider) {
+//.config(function($stateProvider, $urlRouterProvider) {
+
+.config(function($stateProvider, $urlRouterProvider) {
 
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
@@ -39,49 +41,68 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
     // Each state's controller can be found in controllers.js
     $stateProvider
 
-      // setup an abstract state for the tabs directive
-      .state('tab', {
-        abstract: true,
-        url: '/tab',
-        templateUrl: 'templates/tab-home.html'
-      })
 
-      // Each tab has its own nav history stack:
 
-      .state('tab.login', {
-        url: '/login',
-        views: {
-          'tab-login': {
-            templateUrl: 'templates/tab-login.html',
-            controller: 'LoginCtrl'
-          }
-        }
-      })
 
-      .state('tab.trails', {
-        url: '/trails',
-        views: {
-          'tab-trails': {
-            templateUrl: 'templates/tab-trails.html',
-            controller: 'TrailsCtrl'
-          }
-        }
 
-      })
 
-      .state('tab.track', {
+  // Ionic uses AngularUI Router which uses the concept of states
+  // Learn more here: https://github.com/angular-ui/ui-router
+  // Set up the various states which the app can be in.
+  // Each state's controller can be found in controllers.js
+
+   .state('app', {
+      url: '/app',
+      abstract: true,
+      templateUrl: 'templates/menu.html',
+      controller: 'AppCtrl'
+   })
+
+
+    .state('app.track', {
       url: '/track',
       views: {
-       'tab-track': {
-         templateUrl: 'templates/tab-track.html',
-         controller: 'TrackCtrl'
-       }
-    }
+        'menuContent': {
+          templateUrl: 'templates/track.html',
+   //       controller: 'TrackCtrl'
 
-   });
+        }
+     }
+  })
+
+    .state('app.mapping', {
+      url: '/mapping',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/mapping.html',
+   //       controller: 'MappingCtrl'
+
+        }
+      }
+    })
+
+    .state('app.multiplemarkers', {
+      url: '/multiplemarkers.',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/multiplemarkers.html',
+        }
+      }
+    })
+
+    .state('app.single', {
+      url: '/playlists/:playlistId',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/multiplemarkers.html',
+        }
+   }
+});
 
 
-    // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/track');
+      // if none of the above states are matched, use this as the fallback
+      $urlRouterProvider.otherwise('/app/mapping');
 
-  });
+});
+
+      // if none of the above states are matched, use this as the fa
