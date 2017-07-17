@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services',])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ionic.cloud'])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -23,14 +23,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services',])
     });
   })
 
-//  .config(function($ionicCloudProvider) {
-//    $ionicCloudProvider.init({
-//      "core": {
-//        "app_id": "7a986ea1"
-//      }
-//   });
-//})
-
+  .config(function($ionicCloudProvider) {
+  $ionicCloudProvider.init({
+    "core": {
+      "app_id": "0c936b51S"
+    }
+  });
+})
 //.config(function($stateProvider, $urlRouterProvider) {
 
 .config(function($stateProvider, $urlRouterProvider) {
