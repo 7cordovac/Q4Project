@@ -63,7 +63,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
       views: {
         'menuContent': {
           templateUrl: 'templates/track.html',
-   //       controller: 'TrackCtrl'
+          controller: 'TrackCtrl'
 
         }
      }
@@ -74,7 +74,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
       views: {
         'menuContent': {
           templateUrl: 'templates/mapping.html',
-   //       controller: 'MappingCtrl'
+          controller: 'MappingCtrl'
 
         }
       }
@@ -84,7 +84,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
       url: '/multiplemarkers.',
       views: {
         'menuContent': {
-          templateUrl: 'templates/multiplemarkers.html',
+          templateUrl: 'templates/menu.html',
         }
       }
     })
@@ -93,7 +93,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
       url: '/playlists/:playlistId',
       views: {
         'menuContent': {
-          templateUrl: 'templates/multiplemarkers.html',
+          templateUrl: 'templates/menu.html',
         }
    }
 });
