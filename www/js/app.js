@@ -80,15 +80,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
       }
     })
 
-    .state('app.multiplemarkers', {
-      url: '/multiplemarkers.',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/menu.html',
-        }
-      }
-    })
-
     .state('app.single', {
       url: '/playlists/:playlistId',
       views: {

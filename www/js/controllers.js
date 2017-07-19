@@ -16,7 +16,7 @@ angular.module('starter.controllers', [])
 
       $ionicPlatform.registerBackButtonAction(function(event) {
         event.preventDefault();
-        if ($state.current.name == "tab.home") {
+        if ($state.current.name == "app.menu") {
           var confirmPopup = $ionicPopup.confirm({
             title: 'Exit',
             template: 'Confirm Exit'
@@ -32,7 +32,7 @@ angular.module('starter.controllers', [])
           $ionicHistory.nextViewOptions({
             disableBack: true
           });
-          $state.go('tab.home');
+          $state.go('app.menu');
         }
       }, 800); //registerBackButton
 
@@ -101,8 +101,6 @@ angular.module('starter.controllers', [])
   })
 
 
-  ///////////////////////////////////////////////
-
 
   .controller('MappingCtrl', function($scope, $ionicLoading) {
     // you can specify the default lat long
@@ -113,6 +111,14 @@ angular.module('starter.controllers', [])
     currentPositionMarker,
     mapCenter = new google.maps.LatLng(14.668626, 121.24295),
     map;
+
+    var log = document.getElementById('log');
+    var watchId = null;
+    var positionOptions = {
+      enableHighAccuracy: true,
+      timeout: 10 * 1000, // 10 seconds
+      maximumAge: 30 * 1000 // 30 seconds
+    };
 
    // change the zoom if you want
    function initializeMap()
@@ -146,11 +152,7 @@ angular.module('starter.controllers', [])
    }
 
    function displayAndWatch(position) {
-
-    // set current position
     setCurrentPosition(position);
-
-    // watch position
     watchCurrentPosition();
    }
 
@@ -182,6 +184,9 @@ angular.module('starter.controllers', [])
          }, null, options);
    }
 
+
+
+
    function setMarkerPosition(marker, position) {
     marker.setPosition(
          new google.maps.LatLng(
@@ -201,15 +206,72 @@ angular.module('starter.controllers', [])
    }
 
 
+   function error(positionError) {
+     log.innerHTML = 'Error: ' + positionError.message + '<br />' + log.innerHTML;
+   }
+
+
+
+   document.getElementById('button-stop-watching').addEventListener('click', function() {
+     if (watchId !== null) {
+         navigator.geolocation.clearWatch(watchId);
+         log.innerHTML = 'Stopped watching position<br />' + log.innerHTML;
+     }
+   });
+
+/*   document.getElementById('clear-log').addEventListener('click', function() {
+      log.innerHTML = '';
+});*/
+
 
     // initialize with a little help of jQuery
     $(document).ready(function() {
       initLocationProcedure();
-    });
+
+      function loadSuccess(position) {
+        document.getElementById('latitude').innerHTML =
+        position.coords.latitude;
+
+        document.getElementById('longitude').innerHTML =
+        position.coords.longitude;
+
+        document.getElementById('position-accuracy').innerHTML = position.coords.accuracy;
+
+        document.getElementById('altitude').innerHTML =
+        position.coords.altitude ?
+        position.coords.altitude :'unavailable';
+
+        document.getElementById('altitude-accuracy').innerHTML = position.coords.altitudeAccuracy ?
+        position.coords.altitudeAccuracy :'unavailable';
+
+        document.getElementById('heading').innerHTML =
+        position.coords.heading ?
+        position.coords.heading :'unavailable';
+
+        document.getElementById('speed').innerHTML =
+        position.coords.speed ?
+        position.coords.speed :
+                'unavailable';
+
+        document.getElementById('timestamp').innerHTML =
+        (new Date(position.timestamp)).toString();
+
+        //log.innerHTML =
+        //'Position succesfully retrieved<br />' + log.innerHTML;
+      }
+
+      document.getElementById('button-get-position').addEventListener('click', function() {
+        navigator.geolocation.getCurrentPosition(loadSuccess, error, positionOptions);
+
+      });
+
+      document.getElementById('button-watch-position').addEventListener('click', function() {
+        watchId = navigator.geolocation.watchPosition(loadSuccess, error, positionOptions);
+      });
+   });
 })
   /////////////////////////////////////////////
-
-  .controller('TrackCtrl', function($scope, $ionicLoading) {
+ .controller('TrackCtrl', function($scope, $ionicLoading) {
         window.navigator = window.navigator || {};
         window.navigator.geolocation = window.navigator.geolocation ||
                                        undefined;
@@ -271,4 +333,4 @@ angular.module('starter.controllers', [])
 
       });
     }
-});
+  })

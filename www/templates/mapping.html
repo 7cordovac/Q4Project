@@ -1,9 +1,54 @@
 
-<ion-view view-title="Track">
+<ion-view view-title="Map">
   <ion-content class="padding">
 
        <!-- display the map here, you can changed the height or style -->
           <div id="map_canvas" style="height:25em; margin:0; padding:0;"></div>
+
+          <div class="buttons-wrapper">
+             <button id="button-get-position" class="button-demo">Get current position</button>
+             <button id="button-watch-position" class="button-demo">Watch position</button>
+             <button id="button-stop-watching" class="button-demo">Stop watching position</button>
+          </div>
+
+          <div>
+             <div id="latitude"></div>
+             <div id="longitude"></div>
+             <div id="position-accuracy"></div>
+             <div id="heading"></div>
+             <div id="timestamp"></div>
+             <div id="speed"></div>
+             <div id="altitude"></div>
+             <div id="altitude-accuracy"></div>
+
+          </div>
+          </div>
+
+          <span id="g-unsupported" class="hidden">API not supported</span>
+
+
+
+          <h2>Information</h2>
+          <div id="g-information">
+             <ul>
+                <li>Speed:<span id="speed"
+                   class="g-info">unavailable</span>° meters/second</li>
+                <li>
+                   Distance:<span id="distance" class="g-info">unavailable</span>° meters
+                </li>
+                <li>Updated; <span id="timestamp" class="g-info">unavailable</span></li>
+             </ul>
+          </div>
+
+
+
+
+
+          <h3>Log</h3>
+          <div id="log"></div>
+          <button id="clear-log" class="button-demo">Clear log</button>
+
+
 
   </ion-content>
   <!-- for mobile view -->
