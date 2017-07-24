@@ -36,6 +36,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
    })
 
 
+
     .state('app.track', {
       url: '/track',
       views: {
@@ -56,14 +57,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
       }
    })
 
-    .state('app.playlists', {
-      url: '/playlists',
+    .state('app.saved', {
+      url: '/saved',
       views: {
         'menuContent': {
-          templateUrl: 'templates/playlists.html',
+          templateUrl: 'templates/saved.html',
         }
      }
-   });
+   })
 
-      $urlRouterProvider.otherwise('/app/mapping');
+   .state('app.nearby', {
+     url: '/nearby',
+     views: {
+      'menuContent': {
+        templateUrl: 'templates/nearby.html',
+      }
+   }
+ })
+
+      $urlRouterProvider.otherwise('/app/track');
    });

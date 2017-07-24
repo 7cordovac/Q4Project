@@ -79,7 +79,7 @@ angular.module('starter.controllers', [])
       // code if using a login system
       $timeout(function() {
         $scope.closeLogin();
-      }, 3000);
+     }, 1000);
     };
   })
 
@@ -176,7 +176,7 @@ angular.module('starter.controllers', [])
           var routePath = new google.maps.Polyline({
             path: locations,
             geodesic: true,
-            strokeColor: '#000000',
+            strokeColor: '#cc0000',
             strokeOpacity: 1.0,
             strokeWeight: 2
           });
@@ -215,7 +215,7 @@ angular.module('starter.controllers', [])
     }
 
 
-    //STOP TIMER HERE 
+    //STOP TIMER HERE
     document.getElementById('button-stop-watching').addEventListener('click', function() {
       if (watchId !== null) {
         navigator.geolocation.clearWatch(watchId);

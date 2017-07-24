@@ -1,17 +1,18 @@
 
 <ion-view view-title="Map">
-  <ion-content class="padding">
+  <ion-content class="padding" background-color="blue">
 
        <!-- display the map here, you can changed the height or style -->
           <div id="map_canvas" style="height:25em; margin:0; padding:0;"></div>
 
           <div class="buttons-wrapper">
-             <button id="button-get-position" class="button-demo">Find Me </button>
+             <button id="button-get-position" class="button-demo">FIND ME </button>
 
+             <button id="button-watch-position" class="button-demo">TRACK
+             </button>
 
-             <button id="button-watch-position" class="button-demo">Track</button>
-             <h3><time>00:00:00</time></h3>
-             <button id="button-stop-watching" class="button-demo">Stop </button>
+             <button id="button-stop-watching" class="button-demo">STOP </button>
+              <h4><time>00:00:00</time></h4>
           </div>
 
 <!-- TIMER  -->
@@ -52,7 +53,7 @@
         clearTimeout(t);
     }
 
-    /* Clear button 
+    /* Clear button
     clear.onclick = function() {
         h3.textContent = "00:00:00";
         seconds = 0; minutes = 0; hours = 0;
@@ -60,41 +61,46 @@
           </script>
 
 
-          <div>
-             <div id="latitude"></div>
-             <div id="longitude"></div>
-             <div id="position-accuracy"></div>
-             <div id="heading"></div>
-             <div id="altitude"></div>
-             <div id="altitude-accuracy"></div>
-
-          </div>
 
 
           <span id="g-unsupported" class="hidden">API not supported</span>
 
 
 
-          <h2>Information</h2>
+
           <div id="g-information">
              <ul>
                 <li>Speed:<span id="speed"
-                   class="g-info">unavailable</span>° meters/second</li>
+                   class="g-info">unavailable</span>° miles/hr</li>
                 <li>
-                   Distance:<span id="distance" class="g-info">unavailable</span>° meters
+                   Distance:<span id="distance" class="g-info">unavailable</span>° miles
                 </li>
+
+                <li>
+                 Altitude:<span id="altitude" class="g-info">unavailable</span>° feet
+              </li>
+
+               <li>
+                  Coordinates <span id="latitude" class="g-info">unavailable</span>° latitude,
+
+               <span id="longitude" class="g-info">unavailable</span>° longitude
+
                 <li>Updated; <span id="timestamp" class="g-info">unavailable</span></li>
              </ul>
           </div>
 
 
-
-
-
-          <h3>Log</h3>
           <div id="log"></div>
-          <button id="clear-log" class="button-demo">Clear log</button>
+          <button id="clear-log" class="button-demo">RESET</button>
 
+          <div>
+
+
+            <div id="position-accuracy"></div>
+            <div id="heading"></div>
+            <div id="altitude-accuracy"></div>
+
+          </div>
 
 
   </ion-content>
