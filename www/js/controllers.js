@@ -79,7 +79,7 @@ angular.module('starter.controllers', [])
       // code if using a login system
       $timeout(function() {
         $scope.closeLogin();
-     }, 1000);
+      }, 3000);
     };
   })
 
@@ -176,7 +176,7 @@ angular.module('starter.controllers', [])
           var routePath = new google.maps.Polyline({
             path: locations,
             geodesic: true,
-            strokeColor: '#cc0000',
+            strokeColor: '#000000',
             strokeOpacity: 1.0,
             strokeWeight: 2
           });

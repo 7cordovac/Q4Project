@@ -1,109 +1,100 @@
-
 <ion-view view-title="Map">
-  <ion-content class="padding" background-color="blue">
+  <ion-content class="padding">
 
-       <!-- display the map here, you can changed the height or style -->
-          <div id="map_canvas" style="height:25em; margin:0; padding:0;"></div>
+    <!-- display the map here, you can changed the height or style -->
+    <div id="map_canvas" style="height:25em; margin:0; padding:0;"></div>
 
-          <div class="buttons-wrapper">
-             <button id="button-get-position" class="button-demo">FIND ME </button>
+    <div class="buttons-wrapper">
+      <button id="button-get-position" class="button-demo">Find Me </button>
 
-             <button id="button-watch-position" class="button-demo">TRACK
-             </button>
 
-             <button id="button-stop-watching" class="button-demo">STOP </button>
-              <h4><time>00:00:00</time></h4>
-          </div>
+      <button id="button-watch-position" class="button-demo">Track</button>
+      <button id="button-stop-watching" class="button-demo">Stop </button>
+      <h3><time>00:00:00</time></h3>
 
-<!-- TIMER  -->
-          <script type="text/javascript">
-          var h3 = document.getElementsByTagName('h3')[0],
+    </div>
+
+    <!-- TIMER  -->
+    <script type="text/javascript">
+      var h3 = document.getElementsByTagName('h3')[0],
         start = document.getElementById('button-watch-position'),
         stop = document.getElementById('button-stop-watching'),
-      <!--  clear = document.getElementById('clear'), -->
-        seconds = 0, minutes = 0, hours = 0,
+        <!--  clear = document.getElementById('clear'), -->
+        seconds = 0,
+        minutes = 0,
+        hours = 0,
         t;
 
-    function add() {
+      function add() {
         seconds++;
         if (seconds >= 60) {
-            seconds = 0;
-            minutes++;
-            if (minutes >= 60) {
-                minutes = 0;
-                hours++;
-            }
+          seconds = 0;
+          minutes++;
+          if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+          }
         }
-
         h3.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
-
         timer();
-    }
-    function timer() {
+      }
+
+      function timer() {
         t = setTimeout(add, 1000);
-    }
-
-
-
-    /* Start button */
-    start.onclick = timer;
-
-    /* Stop button */
-    stop.onclick = function() {
+      }
+      /* Start button */
+      start.onclick = timer;
+      /* Stop button */
+      stop.onclick = function() {
         clearTimeout(t);
-    }
+      }
+      /* Clear button
+      clear.onclick = function() {
+          h3.textContent = "00:00:00";
+          seconds = 0; minutes = 0; hours = 0;
+      }*/
+    </script>
+    <span id="g-unsupported" class="hidden">API not supported</span>
 
-    /* Clear button
-    clear.onclick = function() {
-        h3.textContent = "00:00:00";
-        seconds = 0; minutes = 0; hours = 0;
-    }*/
-          </script>
+    <div id="g-information">
+      <ul>
+        <li>Latitude:
+          <span id="latitude" class="g-info">unavailable</span>°
+        </li>
 
+        <li>Longitude:
+          <span id="longitude" class="g-info">unavailable</span>°
+        </li>
 
+        <li>Speed:
+          <span id="speed" class="g-info">unavailable</span>° meters/second</li>
+        <li>Altitude:
+          <span id="altitude" class="g-info">unavailable</span> meters
+        </li>
 
+        <li>Updated at <span id="timestamp" class="g-info">unavailable</span></li>
+      </ul>
+    </div>
 
-          <span id="g-unsupported" class="hidden">API not supported</span>
-
-
-
-
-          <div id="g-information">
-             <ul>
-                <li>Speed:<span id="speed"
-                   class="g-info">unavailable</span>° miles/hr</li>
-                <li>
-                   Distance:<span id="distance" class="g-info">unavailable</span>° miles
-                </li>
-
-                <li>
-                 Altitude:<span id="altitude" class="g-info">unavailable</span>° feet
-              </li>
-
-               <li>
-                  Coordinates <span id="latitude" class="g-info">unavailable</span>° latitude,
-
-               <span id="longitude" class="g-info">unavailable</span>° longitude
-
-                <li>Updated; <span id="timestamp" class="g-info">unavailable</span></li>
-             </ul>
-          </div>
+    <h3>Log</h3>
+    <div id="log"></div>
+    <button id="clear-log" class="button-demo">Clear log</button>
 
 
-          <div id="log"></div>
-          <button id="clear-log" class="button-demo">RESET</button>
+    <ul>
+      <li>Longitude accuracy within
+        <span id="position-accuracy" class="g-info">unavailable</span> meters
+      </li>
 
-          <div>
+      <li>
+        <span id="altitude-accuracy" class="g-info">unavailable</span>
+      </li>
 
+      <li>Heading
+        <span id="heading" class="g-info">unavailable</span>° from the True north
+      </li>
 
-            <div id="position-accuracy"></div>
-            <div id="heading"></div>
-            <div id="altitude-accuracy"></div>
-
-          </div>
-
+    </ul>
 
   </ion-content>
-  <!-- for mobile view -->
-
 </ion-view>

@@ -47,44 +47,56 @@ map {
 }
 
 
-<style>
-   *
-   {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-   }
 
-   body
-   {
-      max-width: 500px;
-      margin: 2em auto;
-      padding: 0 0.5em;
-      font-size: 20px;
-   }
+body   {
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
 
-   h1
-   {
-      text-align: center;
-   }
+body
+{
+   max-width: 500px;
+   margin: 2em auto;
+   padding: 0 0.5em;
+   font-size: 20px;
+}
 
-   .hidden
-   {
-      display: none;
-   }
+h1
+{
+   text-align: center;
+}
 
-   .buttons-wrapper
-   {
-      text-align: center;
-   }
+.hidden
+{
+   display: none;
+}
 
-   .button-demo
-   {
-      padding: 0.5em;
-      margin: 1em auto;
-   }
+.buttons-wrapper
+{
+   text-align: center;
+}
 
-   .g-info
-   {
-      font-weight: bold;
-   }
+.button-demo
+{
+   padding: 0.5em;
+   margin: 1em auto;
+}
+
+.g-info
+{
+   font-weight: bold;
+}
+
+
+
+
+
+#log
+{
+   height: 200px;
+   width: 100%;
+   overflow-y: scroll;
+   border: 1px solid #333333;
+   line-height: 1.3em;
+}
