@@ -9,94 +9,86 @@ map {
 }
 
 .angular-google-map-container {
-    display: block;
-    width: 100%;
-    height: 100%;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .angular-google-map {
-    display: block;
-    width: 100%;
-    height: 100%;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .marker-labels {
-    color: red;
-    background-color: white;
-    font-family: "Lucida Grande", "Arial", sans-serif;
-    font-size: 10px;
-    font-weight: bold;
-    text-align: center;
-    border: 1px solid black;
-    white-space: nowrap;
-    padding-left: 3px;
-    padding-right: 3px;
+  color: red;
+  background-color: white;
+  font-family: "Lucida Grande", "Arial", sans-serif;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  border: 1px solid black;
+  white-space: nowrap;
+  padding-left: 3px;
+  padding-right: 3px;
 }
 
 .allow-bullets ul {
-    list-style-type: disc;
-    padding-left: 20px;
+  list-style-type: disc;
+  padding-left: 20px;
 }
 
 #tab-nav tabs {
   height: 10px;
- }
+}
 
 #speed {
-   font-style: bold;
+  font-style: bold;
 }
 
-
-
-body   {
-   -webkit-box-sizing: border-box;
-   -moz-box-sizing: border-box;
-   box-sizing: border-box;
+body {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-body
-{
-   max-width: 500px;
-   margin: 2em auto;
-   padding: 0 0.5em;
-   font-size: 20px;
+body {
+  max-width: 500px;
+  margin: 2em auto;
+  padding: 0 0.5em;
+  font-size: 20px;
 }
 
-h1
-{
-   text-align: center;
+h1 {
+  text-align: center;
 }
 
-.hidden
-{
-   display: none;
+.hidden {
+  display: none;
 }
 
-.buttons-wrapper
-{
-   text-align: center;
+.buttons-wrapper {
+  text-align: center;
 }
 
-.button-demo
-{
-   padding: 0.5em;
-   margin: 1em auto;
+.button-demo {
+  padding: 0.5em;
+  margin: 1em auto;
 }
 
-.g-info
-{
-   font-weight: bold;
+.g-info {
+  font-weight: bold;
 }
 
+#log {
+  height: 200px;
+  width: 100%;
+  overflow-y: scroll;
+  border: 1px solid #333333;
+  line-height: 1.3em;
+}
 
-
-
-
-#log
-{
-   height: 200px;
-   width: 100%;
-   overflow-y: scroll;
-   border: 1px solid #333333;
-   line-height: 1.3em;
+.item-thumbnail {
+  height: 130px;
+  width: 130px;
 }

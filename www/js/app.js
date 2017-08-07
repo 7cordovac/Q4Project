@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ionic.cloud'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic.cloud'])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -17,63 +17,65 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
   })
 
   .config(function($ionicCloudProvider) {
-  $ionicCloudProvider.init({
-    "core": {
-      "app_id": "0c936b51S"
-    }
-  });
-})
+    $ionicCloudProvider.init({
+      "core": {
+        "app_id": "0c936b51S"
+      }
+    });
+  })
 
-.config(function($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider) {
 
     $stateProvider
 
-    .state('app', {
-      url: '/app',
-      abstract: true,
-      templateUrl: 'templates/menu.html',
-      controller: 'AppCtrl'
-   })
+      .state('app', {
+        url: '/app',
+        abstract: true,
+        templateUrl: 'templates/menu.html',
+        controller: 'AppCtrl'
+      })
 
 
-
-    .state('app.track', {
-      url: '/track',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/track.html',
+      .state('app.track', {
+        url: '/track',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/saved.html',
           }
-       }
-   })
-
-    .state('app.mapping', {
-      url: '/mapping',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/mapping.html',
-          controller: 'MappingCtrl'
-
         }
-      }
-   })
+      })
 
-    .state('app.saved', {
-      url: '/saved',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/saved.html',
+
+      .state('app.mapping', {
+        url: '/mapping',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/mapping.html',
+            controller: 'MappingCtrl'
+          }
         }
-     }
-   })
+      })
 
-   .state('app.nearby', {
-     url: '/nearby',
-     views: {
-      'menuContent': {
-        templateUrl: 'templates/nearby.html',
-      }
-   }
- })
 
-      $urlRouterProvider.otherwise('/app/track');
-   });
+      .state('app.saved', {
+        url: '/saved',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/saved.html',
+          }
+        }
+      })
+
+
+      .state('app.nearby', {
+        url: '/nearby',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/nearby.html',
+          }
+        }
+      })
+
+
+    $urlRouterProvider.otherwise('/app/saved');
+  });

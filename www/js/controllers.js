@@ -83,26 +83,24 @@ angular.module('starter.controllers', [])
     };
   })
 
-  //////////////////////////////////
-
   .controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $window) {
     $scope.data = {};
 
     $scope.login = function() {
       LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
-        $state.go('tab.track');
+        $state.go('template.saved');
       }).error(function(data) {
         var alertPopup = $ionicPopup.alert({
           title: 'Login failed!',
           template: 'Please check your credentials!'
         });
       });
-    }
+    };
   })
 
-  .controller('MappingCtrl', function($scope, $ionicLoading) {
-    // you can specify the default lat long
 
+//Mapping
+  .controller('MappingCtrl', function($scope, $ionicLoading) {
     var locations = [];
     // you can specify the default lat long
     var map,
@@ -119,36 +117,38 @@ angular.module('starter.controllers', [])
     };
 
     // change the zoom if you want
+
+    //i changaed center:mapCenter to   center:map
     function initializeMap() {
       map = new google.maps.Map(document.getElementById('map_canvas'), {
-        zoom: 18,
-        center: mapCenter,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+       zoom: 16,
+       // center: mapCenter,
+       mapTypeId: google.maps.MapTypeId.ROADMAP
       });
     }
 
-    function locError(error) {
-      // tell the user if the current position could not be located
-      alert("The current position could not be found!");
-    }
+
+
+
 
     // current position of the user
-
-
     function setCurrentPosition(pos) {
       currentPositionMarker = new google.maps.Marker({
-        map: map,
-        position: new google.maps.LatLng(
+       map: map,
+       center: mapCenter,
+
+       position: new google.maps.LatLng(
           pos.coords.latitude,
-          pos.coords.longitude
-        ),
-        title: "Current Position"
+          pos.coords.longitudexx
+       ),
+       title: "Current Position"
       });
       map.panTo(new google.maps.LatLng(
-        pos.coords.latitude,
-        pos.coords.longitude
+       pos.coords.latitude,
+       pos.coords.longitude
       ));
     }
+
 
     function displayAndWatch(position) {
       setCurrentPosition(position);
@@ -158,17 +158,15 @@ angular.module('starter.controllers', [])
     // START A TIMER HERE
     function watchCurrentPosition() {
       let options = {
-        frequency: 30000
+       frequency: 5000
       };
       var positionTimer = navigator.geolocation.watchPosition(
-        function(position) {
-
-
-
+       function(position) {
           locations.push({
             lat: position.coords.latitude,
             lng: position.coords.longitude
           });
+
 
           $("#bucket").html(locations);
           console.log("ticking and bucket is ", locations);
@@ -176,36 +174,63 @@ angular.module('starter.controllers', [])
           var routePath = new google.maps.Polyline({
             path: locations,
             geodesic: true,
-            strokeColor: '#000000',
+            strokeColor: '#FF0000',
             strokeOpacity: 1.0,
-            strokeWeight: 2
+            strokeWeight: 3
           });
 
           routePath.setMap(map);
-
 
           setMarkerPosition(
             currentPositionMarker,
             position
           );
-        }, null, options);
+       }, null, options);
     }
 
     function setMarkerPosition(marker, position) {
       marker.setPosition(
-        new google.maps.LatLng(
+       new google.maps.LatLng(
           position.coords.latitude,
           position.coords.longitude)
       );
     }
 
+    function set(marker, position) {
+      marker.setPosition(
+       new google.maps.LatLng(
+          position.coords.latitude,
+          position.coords.longitude)
+      );
+    }
+
+
+
+
+
+
+
+
+
+
+
+          function displayError(error) {
+          	var errors = ["Unknown error", "Permission denied by user", "Position not available", "Timeout error"];
+          	var message = errors[error.code];
+          	console.warn("Error in getting your location: " + message, error.message);
+          	var pError = document.getElementById("error");
+          	pError.innerHTML = "Error in getting your location: " + message + ", " + error.message;
+          }
+
+
+
     function initLocationProcedure() {
       initializeMap();
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(displayAndWatch, locError);
-      } else {
-        // tell the user if a browser doesn't support this amazing API
-        alert("Your browser does not support the Geolocation API!");
+       navigator.geolocation.getCurrentPosition(displayAndWatch, displayLocation, displayError, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 });
+    } else {
+       // tell the user if a browser doesn't support this amazing API
+       alert("Your browser does not support the Geolocation API!");
       }
     }
 
@@ -218,8 +243,8 @@ angular.module('starter.controllers', [])
     //STOP TIMER HERE
     document.getElementById('button-stop-watching').addEventListener('click', function() {
       if (watchId !== null) {
-        navigator.geolocation.clearWatch(watchId);
-        log.innerHTML = 'Stopped watching position<br />' + log.innerHTML;
+       navigator.geolocation.clearWatch(watchId);
+       log.innerHTML = 'Stopped watching position<br />' + log.innerHTML;
       }
     });
 
@@ -233,47 +258,117 @@ angular.module('starter.controllers', [])
       initLocationProcedure();
 
       function loadSuccess(position) {
-        document.getElementById('latitude').innerHTML =
+       document.getElementById('latitude').innerHTML =
           position.coords.latitude;
 
-        document.getElementById('longitude').innerHTML =
+       document.getElementById('longitude').innerHTML =
           position.coords.longitude;
 
-        document.getElementById('position-accuracy').innerHTML = position.coords.accuracy;
+       document.getElementById('position-accuracy').innerHTML =
+          position.coords.positionAccuracy ?
+          position.coords.positionAccuracy : 'unavailable';
 
-        document.getElementById('altitude').innerHTML =
+       document.getElementById('altitude').innerHTML =
           position.coords.altitude ?
           position.coords.altitude : 'unavailable';
 
-        document.getElementById('altitude-accuracy').innerHTML = position.coords.altitudeAccuracy ?
+       document.getElementById('altitude-accuracy').innerHTML = position.coords.altitudeAccuracy ?
           position.coords.altitudeAccuracy : 'unavailable';
 
-        document.getElementById('heading').innerHTML =
+       document.getElementById('heading').innerHTML =
           position.coords.heading ?
           position.coords.heading : 'unavailable';
 
-        document.getElementById('speed').innerHTML =
+       document.getElementById('speed').innerHTML =
           position.coords.speed ?
           position.coords.speed :
           'unavailable';
 
-        document.getElementById('timestamp').innerHTML =
+       document.getElementById('timestamp').innerHTML =
           (new Date(position.timestamp)).toString();
-
-        //log.innerHTML =
-        //'Position succesfully retrieved<br />' + log.innerHTML;
       }
 
+      //log.innerHTML =
+      //'Position succesfully retrieved<br />' + log.innerHTML;
+
+
       document.getElementById('button-get-position').addEventListener('click', function() {
-        navigator.geolocation.getCurrentPosition(loadSuccess, error, positionOptions);
+       navigator.geolocation.getCurrentPosition(loadSuccess, error, positionOptions);
 
       });
 
       document.getElementById('button-watch-position').addEventListener('click', function() {
-        watchId = navigator.geolocation.watchPosition(loadSuccess, error, positionOptions);
+       watchId = navigator.geolocation.watchPosition(loadSuccess, error, positionOptions);
       });
     });
-  })
+
+  //DISTANCE
+      function displayLocation(position) {
+      	var latitude = position.coords.latitude;
+      	var longitude = position.coords.longitude;
+
+
+         var t1 = 0, t2 = 0;
+
+
+         var pTime = document.getElementById("time");
+               pTime.innerHTML = "Timeout: 5000, maximumAge: 0";
+
+               t1 = Date.now();
+
+      	var pTime = document.getElementById("time");
+      	t2 = Date.now();
+      	pTime.innerHTML += "<br>Computed in " + (t2-t1) + " milliseconds";
+
+      	var pLocation = document.getElementById("location");
+      	pLocation.innerHTML += latitude + ", " + longitude + "<br>";
+
+      	var pInfo = document.getElementById("info");
+      	var date = new Date(position.timestamp);
+      	pInfo.innerHTML = "Location timestamp: " + date + "<br>";
+      	pInfo.innerHTML += "Accuracy of location: " +
+      						position.coords.accuracy +
+      						" meters<br>";
+      	if (position.coords.altitude) {
+      		pInfo.innerHTML += "Altitude: " + position.coords.altitude;
+      	}
+
+      	if (position.coords.altitudeAccuracy) {
+      		pInfo.innerHTML += " with accuracy " +
+      			position.coords.altitudeAccuracy + "???";
+      	}
+      	pInfo.innerHTML += "<br>";
+      //direction you are heading
+      	if (position.coords.heading) {
+      		pInfo.innerHTML += "Heading: " + position.coords.heading + "<br>";
+      	}
+
+      	if (position.coords.speed) {
+      		pInfo.innerHTML += "Speed: " + position.coords.speed + "<br>";
+      	}
+      }
+
+
+
+      var t1 = 0, t2 = 0;
+
+      window.onload = function() {
+      	if (navigator.geolocation) {
+      		var pTime = document.getElementById("time");
+      		pTime.innerHTML = "Timeout: 5000, maximumAge: 0";
+
+      		t1 = Date.now();
+
+      		navigator.geolocation.getCurrentPosition(displayLocation,
+      			displayError,
+      			{ enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+      		);
+      	} else {
+      		alert("Sorry, this browser doesn't support geolocation!");
+      	}
+      }
+  });
+
 
 /*.controller('TrackCtrl', function($scope, $ionicLoading) {
         window.navigator = window.navigator || {};

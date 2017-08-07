@@ -1,53 +1,92 @@
-<ion-view view-title="Home">
-  <ion-content class="padding">
+<ion-view view-title="Nearby">
+  <ion-content>
 
-     <div id="appTitle">
+     <!DOCTYPE html>
+     <html>
 
-     </div>
+       <head>
+     	<title>Optimizing Geolocation</title>
+     	<meta charset="utf-8">
+         <script>
 
-     <div id="background">
-            <img src="/img/rangertrail.jpg" width="1200px" height="900px">
+         function displayLocation(position) {
+         	var latitude = position.coords.latitude;
+         	var longitude = position.coords.longitude;
 
-         </div>
+         	var pTime = document.getElementById("time");
+         	t2 = Date.now();
+         	pTime.innerHTML += "<br>Computed in " + (t2-t1) + " milliseconds";
 
-      <!--<div class="buttons-wrapper">
-         <button id="button-get-position" class="button-demo">Get current position</button>
-         <button id="button-watch-position" class="button-demo">Watch position</button>
-         <button id="button-stop-watching" class="button-demo">Stop watching position</button>
-      </div>
+         	var pLocation = document.getElementById("location");
+         	pLocation.innerHTML += latitude + ", " + longitude + "<br>";
 
-      <span id="g-unsupported" class="hidden">API not supported</span>
+         	var pInfo = document.getElementById("info");
+         	var date = new Date(position.timestamp);
+         	pInfo.innerHTML = "Location timestamp: " + date + "<br>";
+         	pInfo.innerHTML += "Accuracy of location: " +
+         						position.coords.accuracy +
+         						" meters<br>";
+         	if (position.coords.altitude) {
+         		pInfo.innerHTML += "Altitude: " + position.coords.altitude;
+         	}
 
-      <h2>Information</h2>
-      <div id="g-information">
-         <ul>
-            <li>
-               Your position is <span id="latitude" class="g-info">unavailable</span>° latitude,
-               <span id="longitude" class="g-info">unavailable</span>° longitude (with an accuracy of
-               <span id="position-accuracy" class="g-info">unavailable</span> meters)
-            </li>
-            <li>
-               Your altitude is <span id="altitude" class="g-info">unavailable</span> meters
-               (with an accuracy of <span id="altitude-accuracy" class="g-info">unavailable</span> meters)
-            </li>
-            <li>You're <span id="heading" class="g-info">unavailable</span>° from the True north</li>
-            <li>You're moving at a speed of <span id="speed" class="g-info">unavailable</span>° meters/second</li>
-            <li>Data updated at <span id="timestamp" class="g-info">unavailable</span></li>
-         </ul>
-      </div>
+         	if (position.coords.altitudeAccuracy) {
+         		pInfo.innerHTML += " with accuracy " +
+         			position.coords.altitudeAccuracy + "???";
+         	}
+         	pInfo.innerHTML += "<br>";
+         //direction you are heading
+         	if (position.coords.heading) {
+         		pInfo.innerHTML += "Heading: " + position.coords.heading + "<br>";
+         	}
 
-      <h3>Log</h3>
-      <div id="log"></div>
-      <button id="clear-log" class="button-demo">Clear log</button>  -->
+         	if (position.coords.speed) {
+         		pInfo.innerHTML += "Speed: " + position.coords.speed + "<br>";
+         	}
+         }
+
+         function displayError(error) {
+         	var errors = ["Unknown error", "Permission denied by user", "Position not available", "Timeout error"];
+         	var message = errors[error.code];
+         	console.warn("Error in getting your location: " + message, error.message);
+         	var pError = document.getElementById("error");
+         	pError.innerHTML = "Error in getting your location: " + message + ", " + error.message;
+         }
+
+         var t1 = 0, t2 = 0;
+
+         window.onload = function() {
+         	if (navigator.geolocation) {
+         		var pTime = document.getElementById("time");
+         		pTime.innerHTML = "Timeout: 5000, maximumAge: 0";
+
+         		t1 = Date.now();
+
+         		navigator.geolocation.getCurrentPosition(displayLocation,
+         			displayError,
+         			{ enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+         		);
+         	} else {
+         		alert("Sorry, this browser doesn't support geolocation!");
+         	}
+         }
 
 
 
+         </script>
+     	<style>
+     	</style>
+       </head>
 
+       <body>
+         <h1>Distance Travelled</h1>
+         <p id="location"></p>
+     	<p id="time"></p>
+     	<p id="info"></p>
+     	<p id="error"></p>
+       </body>
 
-
-
-
-
+     </html>
 
   </ion-content>
   <!-- for mobile view -->
